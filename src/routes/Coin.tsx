@@ -2,10 +2,6 @@ import { useState } from 'react';
 import { useLocation, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 
-interface RouteParams {
-  coinId: string;
-}
-
 const Container = styled.div`
   padding: 0px 20px;
   max-width: 480px;
@@ -28,17 +24,25 @@ const Title = styled.h1`
   color: ${(props) => props.theme.accentColor};
 `;
 
+interface RouteParams {
+  coinId: string;
+}
+
+interface RouteState {
+  name: string;
+}
+
 function Coin() {
   const { coinId } = useParams<RouteParams>();
   const [loading, setLoading] = useState(true);
-	const location = useLocation();
-	console.log(location);
+  const {state} = useLocation<RouteState>();  // from #Coins : Link to의 state를 받음
+	// const location = useLocation();
+	console.log(state.name);
 	
-
   return (
     <Container>
       <Header>
-        <Title>Coin {coinId}</Title>
+        <Title>{state?.name || 'Loading...'}</Title>
       </Header>
       {loading ? <Loader>Loainding...</Loader> : null}
     </Container>

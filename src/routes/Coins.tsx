@@ -86,7 +86,7 @@ function Coins() {
 					<Coin key={coin.id}>
 						<Link to={{
 							pathname: `/${coin.id}`,
-							state: {name: coin},
+							state: {name: coin.name},	// To send 'behind the scene' data --> #Coin에서 useLocation()으로 받음
 							}}>
 								<Img src={`https://coinicons-api.vercel.app/api/icon/${coin.symbol.toLowerCase()}`} />
 								{coin.name} &rarr;
