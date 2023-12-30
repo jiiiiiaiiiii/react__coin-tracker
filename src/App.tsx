@@ -1,4 +1,3 @@
-import React from 'react';
 import Router from './Router';
 import { createGlobalStyle } from 'styled-components';
 
@@ -65,7 +64,7 @@ body {
 }
 a {
   text-decoration: none;
-  color: inherit;
+  color: inherit; // link색을 부모에게서 가져옴
 }
 `;
 

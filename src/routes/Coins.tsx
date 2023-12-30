@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import App from './../App';
 
 const Container = styled.div`
 	padding: 0px 20px;
@@ -25,7 +24,7 @@ const Coin = styled.li`
 	a {
 		display: flex;
 		align-items: center;
-		padding: 20px;
+		padding: 20px;	// link 클릭 범위 확장
 		transition: color .2s ease-in;
 	}
 	&:hover {
@@ -40,16 +39,6 @@ font-size: 48px;
 	color: ${props => props.theme.accentColor};
 `;
 
-interface CoinInterface {
-	id: string,
-	name: string,
-	symbol: string,
-	rank: number,
-	is_new: boolean,
-	is_active: boolean,
-	type: string,
-}
-
 const Loader = styled.span`
 	text-align: center;
 	display: block;
@@ -61,10 +50,21 @@ const Img = styled.img`
 	margin-right: 10px;
 `;
 
+interface ICoin {
+	id: string,
+	name: string,
+	symbol: string,
+	rank: number,
+	is_new: boolean,
+	is_active: boolean,
+	type: string,
+}
+
 function Coins() {
-	const [coins, setCoins] = useState<CoinInterface[]>([]);
+	const [coins, setCoins] = useState<ICoin[]>([]);
 	const [loading, setLoading] = useState(true);
 
+	// 기본형: useEffect(() => {(async / await)()},[])
 	useEffect(() => {
 		(async() => {
 			const response = await fetch('https://api.coinpaprika.com/v1/coins');
@@ -72,7 +72,7 @@ function Coins() {
 			setCoins(json.slice(0, 100));	// 앞에서부터 100개의 코인만 추출
 			setLoading(false);
 		})(); // 바로 실행
-	}, []);	// 최초 실행 시에만
+	}, []);	// component 최초 실행 시에만
 
 	return (
 		<Container>

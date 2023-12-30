@@ -48,15 +48,15 @@ const Description = styled.p`
   margin: 20px 0px;
 `;
 
-interface RouteParams {
+interface IRouteParams {
   coinId: string;
 }
 
-interface RouteState {
+interface IRouteState {
   name: string;
 }
 
-interface InfoData {
+interface IInfoData {
   id: string;
   name: string;
   symbol: string;
@@ -78,7 +78,7 @@ interface InfoData {
   last_data_at: string;
 }
 
-interface PriceData {
+interface IPriceData {
   id: string;
   name: string;
   symbol: string;
@@ -113,22 +113,22 @@ interface PriceData {
 }
 
 function Coin() {
-  const { coinId } = useParams<RouteParams>();
+  const { coinId } = useParams<IRouteParams>();
   const [loading, setLoading] = useState(true);
-  const { state } = useLocation<RouteState>(); // from #Coins : Link to의 state를 받음
-  const [info, setInfo] = useState<InfoData>();
-  const [priceInfo, setPriceInfo] = useState<PriceData>();
+  const { state } = useLocation<IRouteState>(); // from #Coins : Link to의 state를 받음
+  const [info, setInfo] = useState<IInfoData>();
+  const [priceInfo, setPriceInfo] = useState<IPriceData>();
 
   // const location = useLocation();
-  // console.log(state.name);
+  // console.log(location);
 
   useEffect(() => {
     (async () => {
       const infoData = await (
-        await fetch(`https://api.coinpaprika.com/v1/coins/${coinId}`)
+        await fetch(`https://api.coinpaprika.com/v1/coins/${coinId}`)   // 코인 정보 API
       ).json();
       const priceData = await (
-        await fetch(`https://api.coinpaprika.com/v1/tickers/${coinId}`)
+        await fetch(`https://api.coinpaprika.com/v1/tickers/${coinId}`) // 코인 가격 API
       ).json();
 
       setInfo(infoData);
@@ -142,7 +142,7 @@ function Coin() {
       <Header>
         <Title>
           {/* // Home을 거치지 않은 경우(바로 상세페이지로 접근한 경우)에는 괄호 안(loading~) 실행 */}
-          {state?.name ? state.name : (loading ? 'Loading...' : info?.name)} 
+          {state?.name ? state.name : (loading ? 'Loading...' : info?.name)}
         </Title>
       </Header>
 
@@ -175,6 +175,14 @@ function Coin() {
               <span>{priceInfo?.max_supply}</span>
             </OverviewItem>
           </Overview>
+          <Switch>
+            <Route path={`/${coinId}/price`}>
+              <Price />
+            </Route>
+            <Route path={`/${coinId}/chart`}>
+              <Chart />
+            </Route>
+          </Switch>
         </>
       )}
     </Container>
