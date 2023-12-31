@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
+import { useQuery } from 'react-query';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import { fectchCoins } from '../api';
 
 const Container = styled.div`
 	padding: 0px 20px;
@@ -61,28 +63,29 @@ interface ICoin {
 }
 
 function Coins() {
-	const [coins, setCoins] = useState<ICoin[]>([]);
-	const [loading, setLoading] = useState(true);
+	const {isLoading, data} = useQuery<ICoin[]>('allCoins', fectchCoins);
+	// const [coins, setCoins] = useState<ICoin[]>([]);
+	// const [loading, setLoading] = useState(true);
 
-	// 기본형: useEffect(() => {(async / await)()},[])
-	useEffect(() => {
-		(async() => {
-			const response = await fetch('https://api.coinpaprika.com/v1/coins');
-			const json = await response.json();
-			setCoins(json.slice(0, 100));	// 앞에서부터 100개의 코인만 추출
-			setLoading(false);
-		})(); // 바로 실행
-	}, []);	// component 최초 실행 시에만
+	// // 기본형: useEffect(() => {(async / await)()},[])
+	// useEffect(() => {
+	// 	(async() => {
+	// 		const response = await fetch('https://api.coinpaprika.com/v1/coins');
+	// 		const json = await response.json();
+	// 		setCoins(json.slice(0, 100));	// 앞에서부터 100개의 코인만 추출
+	// 		setLoading(false);
+	// 	})(); // 바로 실행
+	// }, []);	// component 최초 실행 시에만
 
 	return (
 		<Container>
 			<Header>
 			<Title>Coin</Title>
 			</Header>
-			{loading 
+			{isLoading 
 			? <Loader>Loainding...</Loader>
 			: <CoinsList>
-				{coins.map(coin => 
+				{data?.slice(0, 100).map(coin => 
 					<Coin key={coin.id}>
 						<Link to={{
 							pathname: `/${coin.id}`,
