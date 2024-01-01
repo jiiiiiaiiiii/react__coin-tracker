@@ -1,5 +1,13 @@
 import { useState, useEffect } from 'react';
-import { Link, Switch, Route, useLocation, useParams, useRouteMatch } from 'react-router-dom';
+import {
+  Link,
+  Switch,
+  Route,
+  useLocation,
+  useParams,
+  useRouteMatch,
+} from 'react-router-dom';
+import { Helmet } from 'react-helmet';
 import styled from 'styled-components';
 import Chart from './Chart';
 import Price from './Price';
@@ -59,7 +67,7 @@ const Tabs = styled.div`
   gap: 10px;
 `;
 
-const Tab = styled.span<{isActive: boolean}>`
+const Tab = styled.span<{ isActive: boolean }>`
   text-align: center;
   text-transform: uppercase;
   font-size: 12px;
@@ -67,7 +75,8 @@ const Tab = styled.span<{isActive: boolean}>`
   background-color: rgba(0, 0, 0, 0.5);
   padding: 7px 0px;
   border-radius: 10px;
-  color: ${(props) => props.isActive ? props.theme.accentColor : props.theme.textColor};
+  color: ${(props) =>
+    props.isActive ? props.theme.accentColor : props.theme.textColor};
   a {
     display: block;
   }
@@ -141,11 +150,20 @@ function Coin() {
   const { coinId } = useParams<IRouteParams>();
   const { state } = useLocation<IRouteState>(); // from #Coins : Link to의 state를 받음
   const priceMatch = useRouteMatch('/:coinId/price');
-  const chartMatch = useRouteMatch('/:coinId/chart');  
+  const chartMatch = useRouteMatch('/:coinId/chart');
 
   // ✨ //
-  const {isLoading: infoLoading, data: infoData} = useQuery<IInfoData>(['info', coinId], () => fetchCoinInfo(coinId));
-  const {isLoading: tickersLoading, data: tickersData} = useQuery<IPriceData>(['tickers', coinId], () => fetchCoinTickers(coinId));
+  const { isLoading: infoLoading, data: infoData } = useQuery<IInfoData>(
+    ['info', coinId],
+    () => fetchCoinInfo(coinId)
+  );
+  const { isLoading: tickersLoading, data: tickersData } = useQuery<IPriceData>(
+    ['tickers', coinId],
+    () => fetchCoinTickers(coinId),
+    {
+      refetchInterval: 5000,  // query를 5초마다 refetch
+    }
+  );
 
   /*
   const [loading, setLoading] = useState(true);
@@ -172,10 +190,16 @@ function Coin() {
 
   // ✨ //
   const loading = infoLoading || tickersLoading;
-  
 
   return (
     <Container>
+      <Helmet>
+        <title>
+          {state?.name ? state.name : loading ? 'Loading...' : infoData?.name}
+        </title>
+        <link rel="icon" type="image/png" href={`https://coinicons-api.vercel.app/api/icon/${infoData?.symbol.toLowerCase()}`} sizes='16*16' />
+      </Helmet>
+
       <Header>
         <Title>
           {/* Home을 거치지 않은 경우(바로 상세페이지로 접근한 경우)에는 괄호 안(loading~?:) 실행 */}
@@ -194,11 +218,11 @@ function Coin() {
             </OverviewItem>
             <OverviewItem>
               <span>Symbol:</span>
-              <span>${infoData?.symbol}</span>
+              <span>{infoData?.symbol}</span>
             </OverviewItem>
             <OverviewItem>
               <span>Price:</span>
-              <span>{tickersData?.quotes.USD.price.toFixed(3)}</span>
+              <span>$ {tickersData?.quotes.USD.price.toFixed(3)}</span>
             </OverviewItem>
           </Overview>
           <Description>{infoData?.description}</Description>
