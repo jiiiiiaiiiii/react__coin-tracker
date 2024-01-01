@@ -147,29 +147,32 @@ function Coin() {
   const {isLoading: infoLoading, data: infoData} = useQuery<IInfoData>(['info', coinId], () => fetchCoinInfo(coinId));
   const {isLoading: tickersLoading, data: tickersData} = useQuery<IPriceData>(['tickers', coinId], () => fetchCoinTickers(coinId));
 
-  // const [loading, setLoading] = useState(true);
-  // const [info, setInfo] = useState<IInfoData>();
-  // const [priceInfo, setPriceInfo] = useState<IPriceData>();
+  /*
+  const [loading, setLoading] = useState(true);
+  const [info, setInfo] = useState<IInfoData>();
+  const [priceInfo, setPriceInfo] = useState<IPriceData>();
 
-  // useEffect(() => {
-  //   (async () => {
-  //     const infoData = await (
-  //       await fetch(`https://api.coinpaprika.com/v1/coins/${coinId}`)
-  //     ) // 코인 정보 API
-  //       .json();
-  //     const priceData = await (
-  //       await fetch(`https://api.coinpaprika.com/v1/tickers/${coinId}`)
-  //     ) // 코인 가격 API
-  //       .json();
+  useEffect(() => {
+    (async () => {
+      const infoData = await (
+        await fetch(`https://api.coinpaprika.com/v1/coins/${coinId}`)
+      ) // 코인 정보 API
+        .json();
+      const priceData = await (
+        await fetch(`https://api.coinpaprika.com/v1/tickers/${coinId}`)
+      ) // 코인 가격 API
+        .json();
 
-  //     setInfo(infoData);
-  //     setPriceInfo(priceData);
-  //     setLoading(false);
-  //   })();
-  // }, [coinId]); // dependency
+      setInfo(infoData);
+      setPriceInfo(priceData);
+      setLoading(false);
+    })();
+  }, [coinId]); // dependency
+  */
 
   // ✨ //
   const loading = infoLoading || tickersLoading;
+  
 
   return (
     <Container>
@@ -194,8 +197,8 @@ function Coin() {
               <span>${infoData?.symbol}</span>
             </OverviewItem>
             <OverviewItem>
-              <span>Open Source:</span>
-              <span>{infoData?.open_source ? 'Yes' : 'No'}</span>
+              <span>Price:</span>
+              <span>{tickersData?.quotes.USD.price.toFixed(3)}</span>
             </OverviewItem>
           </Overview>
           <Description>{infoData?.description}</Description>
@@ -224,7 +227,7 @@ function Coin() {
               <Price />
             </Route>
             <Route path={`/:coinId/chart`}>
-              <Chart />
+              <Chart coinId={coinId} />
             </Route>
           </Switch>
         </>

@@ -64,19 +64,22 @@ interface ICoin {
 
 function Coins() {
 	const {isLoading, data} = useQuery<ICoin[]>('allCoins', fetchCoins);
-	// const [coins, setCoins] = useState<ICoin[]>([]);
-	// const [loading, setLoading] = useState(true);
 
-	// // 기본형: useEffect(() => {(async / await)()},[])
-	// useEffect(() => {
-	// 	(async() => {
-	// 		const response = await fetch('https://api.coinpaprika.com/v1/coins');
-	// 		const json = await response.json();
-	// 		setCoins(json.slice(0, 100));	// 앞에서부터 100개의 코인만 추출
-	// 		setLoading(false);
-	// 	})(); // 바로 실행
-	// }, []);	// component 최초 실행 시에만
+	/*
+	const [coins, setCoins] = useState<ICoin[]>([]);
+	const [loading, setLoading] = useState(true);
 
+	// 기본형: useEffect(() => {(async / await)()},[])
+	useEffect(() => {
+		(async() => {
+			const response = await fetch('https://api.coinpaprika.com/v1/coins');
+			const json = await response.json();
+			setCoins(json.slice(0, 100));	// 앞에서부터 100개의 코인만 추출
+			setLoading(false);
+		})(); // 바로 실행
+	}, []);	// component 최초 실행 시에만
+	*/
+	
 	return (
 		<Container>
 			<Header>
