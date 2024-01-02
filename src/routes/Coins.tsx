@@ -4,6 +4,8 @@ import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import styled from 'styled-components';
 import { fetchCoins } from '../api';
+import { useSetRecoilState } from 'recoil';
+import { isDarkAtom } from '../atoms';
 
 const Container = styled.div`
   padding: 0px 20px;
@@ -63,13 +65,11 @@ interface ICoin {
   type: string;
 }
 
-interface IRouterProps {
-  toggleDark: () => void;
-}
-
-function Coins({toggleDark}:IRouterProps) {
+function Coins() {
   const { isLoading, data } = useQuery<ICoin[]>('allCoins', fetchCoins);
-
+  const setDarkAtom = useSetRecoilState(isDarkAtom);
+  const toggleDarkAtom = () => setDarkAtom(curr => !curr);
+  
   /*
 	const [coins, setCoins] = useState<ICoin[]>([]);
 	const [loading, setLoading] = useState(true);
@@ -93,7 +93,7 @@ function Coins({toggleDark}:IRouterProps) {
 
       <Header>
         <Title>Coin</Title>
-        <button onClick={toggleDark}>Toggle Mode</button>
+        <button onClick={toggleDarkAtom}>Toggle Mode</button>
       </Header>
       {isLoading ? (
         <Loader>Loainding...</Loader>
