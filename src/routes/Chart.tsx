@@ -20,7 +20,7 @@ interface IChartProps {
 function Chart({coinId}:IChartProps) {
   // ohlcv: Open, High, Low, Close Value
   const {isLoading, data} = useQuery<IHistorical[]>(['ohlcv', coinId], () => fetchCoinHistory(coinId));
-  
+  const dataInfo = data && data?.map(price => Number(price.close));
   return <div>
     {isLoading 
     ? 'Loading Chart...' 
@@ -29,7 +29,7 @@ function Chart({coinId}:IChartProps) {
         series={[
           {
             name: 'Price',
-            data: data?.map(price => Number(price.close)) ?? []
+            data: dataInfo ?? [],
             // ??: Null 병합 연산자
             // - 앞에 오는 값이 null 또는 undefined이면 뒤에오는 값을 반환
             // null ?? true --> true / true ?? null --> true

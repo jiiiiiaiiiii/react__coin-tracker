@@ -190,6 +190,7 @@ function Coin() {
 
   // ✨ //
   const loading = infoLoading || tickersLoading;
+  const logo = typeof infoData?.symbol === 'string' ? infoData?.symbol.toLowerCase() : 'logo';
 
   return (
     <Container>
@@ -197,7 +198,7 @@ function Coin() {
         <title>
           {state?.name ? state.name : loading ? 'Loading...' : infoData?.name}
         </title>
-        <link rel="icon" type="image/png" href={`https://coinicons-api.vercel.app/api/icon/${infoData?.symbol.toLowerCase()}`} sizes='16*16' />
+        <link rel="icon" type="image/png" href={`https://coinicons-api.vercel.app/api/icon/${logo}`} sizes='16*16' />
       </Helmet>
 
       <Header>
@@ -222,7 +223,7 @@ function Coin() {
             </OverviewItem>
             <OverviewItem>
               <span>Price:</span>
-              <span>$ {tickersData?.quotes.USD.price.toFixed(3)}</span>
+              <span>$ {tickersData?.quotes?.USD.price.toFixed(3)}</span>
             </OverviewItem>
           </Overview>
           <Description>{infoData?.description}</Description>
