@@ -26,6 +26,11 @@ const Header = styled.header`
   align-items: center;
 `;
 
+const HomeBtn = styled.span`
+  color: white;
+
+`;
+
 const Loader = styled.span`
   text-align: center;
   display: block;
@@ -160,9 +165,9 @@ function Coin() {
   const { isLoading: tickersLoading, data: tickersData } = useQuery<IPriceData>(
     ['tickers', coinId],
     () => fetchCoinTickers(coinId),
-    {
-      refetchInterval: 5000,  // query를 5초마다 refetch
-    }
+    // {
+    //   refetchInterval: 5000, // query를 5초마다 refetch
+    // }
   );
 
   /*
@@ -190,7 +195,10 @@ function Coin() {
 
   // ✨ //
   const loading = infoLoading || tickersLoading;
-  const logo = typeof infoData?.symbol === 'string' ? infoData?.symbol.toLowerCase() : 'logo';
+  const logo =
+    typeof infoData?.symbol === 'string'
+      ? infoData?.symbol.toLowerCase()
+      : 'logo';
 
   return (
     <Container>
@@ -198,11 +206,19 @@ function Coin() {
         <title>
           {state?.name ? state.name : loading ? 'Loading...' : infoData?.name}
         </title>
-        <link rel="icon" type="image/png" href={`https://coinicons-api.vercel.app/api/icon/${logo}`} sizes='16*16' />
+        <link
+          rel='icon'
+          type='image/png'
+          href={`https://coinicons-api.vercel.app/api/icon/${logo}`}
+          sizes='16*16'
+        />
       </Helmet>
 
       <Header>
         <Title>
+          <HomeBtn>
+            <Link to={`/`}>&lsaquo; </Link>
+          </HomeBtn>
           {/* Home을 거치지 않은 경우(바로 상세페이지로 접근한 경우)에는 괄호 안(loading~?:) 실행 */}
           {state?.name ? state.name : loading ? 'Loading...' : infoData?.name}
         </Title>
@@ -249,7 +265,7 @@ function Coin() {
 
           <Switch>
             <Route path={`/:coinId/price`}>
-              <Price />
+              <Price coinId={coinId} />
             </Route>
             <Route path={`/:coinId/chart`}>
               <Chart coinId={coinId} />
