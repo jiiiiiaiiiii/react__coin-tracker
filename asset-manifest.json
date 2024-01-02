@@ -1,0 +1,10 @@
+{
+  "files": {
+    "main.js": "/toy-crypto-tracker/static/js/main.71ff55e5.js",
+    "index.html": "/toy-crypto-tracker/index.html",
+    "main.71ff55e5.js.map": "/toy-crypto-tracker/static/js/main.71ff55e5.js.map"
+  },
+  "entrypoints": [
+    "static/js/main.71ff55e5.js"
+  ]
+}
