@@ -21,7 +21,7 @@ const CoinsList = styled.ul``;
 
 const Coin = styled.li`
   background-color: white;
-  color: ${(props) => props.theme.bgColor};
+  color: ${(props) => props.theme.textColor};
   margin-bottom: 10px;
   border-radius: 15px;
   a {
@@ -63,7 +63,11 @@ interface ICoin {
   type: string;
 }
 
-function Coins() {
+interface IRouterProps {
+  toggleDark: () => void;
+}
+
+function Coins({toggleDark}:IRouterProps) {
   const { isLoading, data } = useQuery<ICoin[]>('allCoins', fetchCoins);
 
   /*
@@ -89,6 +93,7 @@ function Coins() {
 
       <Header>
         <Title>Coin</Title>
+        <button onClick={toggleDark}>Toggle Mode</button>
       </Header>
       {isLoading ? (
         <Loader>Loainding...</Loader>

@@ -1,6 +1,9 @@
 import Router from './Router';
 import { createGlobalStyle } from 'styled-components';
-import {ReactQueryDevtools} from 'react-query/devtools';
+import { ReactQueryDevtools } from 'react-query/devtools';
+import { ThemeProvider } from 'styled-components';
+import { darkTheme, lightTheme } from './theme';
+import { useState } from 'react';
 
 // Reset CSS
 const GlobalStyle = createGlobalStyle`
@@ -59,8 +62,8 @@ table {
 body {
   font-weight: 300;
   font-family: 'Source Sans Pro', sans-serif;
-  background-color: ${props => props.theme.bgColor};
-  color: ${props => props.theme.textColor};
+  background-color: ${(props) => props.theme.bgColor};
+  color: ${(props) => props.theme.textColor};
   line-height: 1.2;
 }
 a {
@@ -70,11 +73,16 @@ a {
 `;
 
 function App() {
+  const [isDark, setIsDark] = useState(true);
+  const toggleDark = () => setIsDark(curr => !curr);
+
   return (
     <>
-      <GlobalStyle />
-      <Router />
-      <ReactQueryDevtools initialIsOpen={true} />
+      <ThemeProvider theme={isDark ? darkTheme : lightTheme}>
+        <GlobalStyle />
+        <Router isDark={isDark} toggleDark={toggleDark}/>
+        <ReactQueryDevtools initialIsOpen={true} />
+      </ThemeProvider>
     </>
   );
 }

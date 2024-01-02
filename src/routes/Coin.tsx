@@ -151,7 +151,11 @@ interface IPriceData {
   };
 }
 
-function Coin() {
+interface ICoinProps {
+  isDark: boolean;
+}
+
+function Coin({isDark}:ICoinProps) {
   const { coinId } = useParams<IRouteParams>();
   const { state } = useLocation<IRouteState>(); // from #Coins : Link to의 state를 받음
   const priceMatch = useRouteMatch('/:coinId/price');
@@ -268,7 +272,7 @@ function Coin() {
               <Price coinId={coinId} />
             </Route>
             <Route path={`/:coinId/chart`}>
-              <Chart coinId={coinId} />
+              <Chart isDark={isDark} coinId={coinId} />
             </Route>
           </Switch>
         </>
