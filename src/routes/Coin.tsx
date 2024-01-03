@@ -239,18 +239,18 @@ function Coin() {
             </OverviewItem>
             <OverviewItem>
               <span>Price:</span>
-              <span>$ {tickersData?.quotes?.USD.price.toFixed(3)}</span>
+              <span>$ {Number(tickersData?.quotes?.USD.price.toFixed(3)).toLocaleString()}</span>
             </OverviewItem>
           </Overview>
           <Description>{infoData?.description}</Description>
           <Overview>
             <OverviewItem>
               <span>Total Suply:</span>
-              <span>{tickersData?.total_supply}</span>
+              <span>{tickersData?.total_supply.toLocaleString()}</span>
             </OverviewItem>
             <OverviewItem>
               <span>Max Supply:</span>
-              <span>{tickersData?.max_supply}</span>
+              <span>{tickersData?.max_supply.toLocaleString()}</span>
             </OverviewItem>
           </Overview>
 
