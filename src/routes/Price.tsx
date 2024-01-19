@@ -58,11 +58,11 @@ function Price({ coinId }: IChartProps) {
       <Prices>
         {data?.map((price, idx:number) => (
         <tr key={idx}>
-          <td>{Number(price.open).toFixed(2).toLocaleString()}</td>
-          <td>{Number(price.high).toFixed(2).toLocaleString()}</td>
-          <td>{Number(price.low).toFixed(2).toLocaleString()}</td>
-          <td>{Number(price.close).toFixed(2).toLocaleString()}</td>
-          <td>{Number(price.volume).toFixed(2).toLocaleString()}</td>
+          <td>{Number(price.open).toLocaleString()}</td>
+          <td>{Number(price.high).toLocaleString()}</td>
+          <td>{Number(price.low).toLocaleString()}</td>
+          <td>{Number(price.close).toLocaleString()}</td>
+          <td>{Number(price.volume).toLocaleString()}</td>
         </tr>
         ))}
       </Prices>

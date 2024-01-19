@@ -19,16 +19,84 @@ interface IChartProps {
   coinId: string;
 }
 
-function Chart({coinId}:IChartProps) {
+function Chart({ coinId }: IChartProps) {
   // ohlcv: Open, High, Low, Close Value
-  const {isLoading, data} = useQuery<IHistorical[]>(['ohlcv', coinId], () => fetchCoinHistory(coinId));
-  const dataInfo = data?.map(price => Number(price.close));
+  const { isLoading, data } = useQuery<IHistorical[]>(['ohlcv', coinId], () =>
+    fetchCoinHistory(coinId)
+  );
+  // const dataInfo = data?.map(price => Number(price.close));
   const isDark = useRecoilValue(isDarkAtom);
 
-  return <div>
-    {isLoading 
-    ? 'Loading Chart...' 
-    : <ApexChart 
+  const validData = data ?? [];
+  const chartData = validData?.map(price => {
+    return {
+      x: new Date(price.time_close * 1000).toUTCString(),
+      y: [price.open, price.high, price.low, price.close]
+    };
+  })
+
+  return (
+    <div>
+      {isLoading ? (
+        'Loading Chart...'
+      ) : (
+        <ApexChart
+  type="candlestick"
+  series={[
+    {
+      data: chartData,
+    },
+  ]}
+  options={{
+    theme: {
+      mode: isDark ? 'dark' : 'light',
+    },
+    chart: {
+      height: 500,
+      width: 500,
+      toolbar: {
+        show: false
+      },
+      background: "transparent",
+    },
+    plotOptions: {
+      candlestick: {
+        wick: {
+          useFillColor: true,
+        },
+      },
+    },
+    xaxis: {
+      labels: {
+        datetimeFormatter: {
+          month: "mmm 'yy",
+        },
+      },
+      type: "datetime",
+      categories: data?.map(date => date.time_close),
+      axisTicks: {
+        show: false,
+      },
+    },
+    yaxis: {
+      show: false,
+    },
+    tooltip: {
+      y: {
+        formatter: price => `$ ${price.toFixed(2)}`,
+      },
+    },
+  }}
+/>
+      )}
+    </div>
+  );
+}
+
+export default Chart;
+
+// line chart
+/* <ApexChart 
         type='line' 
         series={[
           {
@@ -72,8 +140,4 @@ function Chart({coinId}:IChartProps) {
               formatter: (value) => `$ ${value.toFixed(2)}`,  // 소숫점 2자리까지
             },
           }
-        }}/>}
-  </div>;
-}
-
-export default Chart;
+        }}/> */
