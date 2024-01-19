@@ -202,10 +202,10 @@ function Coin() {
 
   // ✨ //
   const loading = infoLoading || tickersLoading;
-  const logo =
-    typeof infoData?.symbol === 'string'
-      ? infoData?.symbol.toLowerCase()
-      : 'logo';
+  // const logo =
+  //   typeof infoData?.symbol === 'string'
+  //     ? infoData?.symbol.toLowerCase()
+  //     : 'logo';
 
   return (
     <Container>
@@ -216,7 +216,7 @@ function Coin() {
         <link
           rel='icon'
           type='image/png'
-          href={`https://coinicons-api.vercel.app/api/icon/${logo}`}
+          // href={`https://coinicons-api.vercel.app/api/icon/${logo}`}
           sizes='16*16'
         />
       </Helmet>
