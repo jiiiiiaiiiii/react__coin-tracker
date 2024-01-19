@@ -33,7 +33,7 @@ const Coin = styled.li`
   }
   &:hover {
     a {
-      font-weight: bolder;
+      font-weight: bold;
       color: ${(props) => props.theme.accentColor};
     }
   }

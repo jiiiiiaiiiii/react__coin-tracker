@@ -1,12 +1,11 @@
-import React from 'react';
 import styled from 'styled-components';
 import { useSetRecoilState } from 'recoil';
 import { isDarkAtom } from '../atoms';
 
 const ToggleBtn = styled.button`
 	position: fixed;
-  right: 5%;
-  bottom: 5%;
+  right: 10%;
+  top: 3%;
   font-size: 15px;
   padding :15px 10px;
   color: ${props => props.theme.textColor};

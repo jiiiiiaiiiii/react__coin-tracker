@@ -22,7 +22,7 @@ interface IChartProps {
 function Chart({coinId}:IChartProps) {
   // ohlcv: Open, High, Low, Close Value
   const {isLoading, data} = useQuery<IHistorical[]>(['ohlcv', coinId], () => fetchCoinHistory(coinId));
-  const dataInfo = data && data?.map(price => Number(price.close));
+  const dataInfo = data?.map(price => Number(price.close));
   const isDark = useRecoilValue(isDarkAtom);
 
   return <div>

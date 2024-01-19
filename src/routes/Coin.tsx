@@ -1,4 +1,3 @@
-import { useState, useEffect } from 'react';
 import {
   Link,
   Switch,
@@ -13,6 +12,9 @@ import Chart from './Chart';
 import Price from './Price';
 import { useQuery } from 'react-query';
 import { fetchCoinInfo, fetchCoinTickers } from '../api';
+import { isDarkAtom } from './../atoms';
+import { useRecoilValue } from 'recoil';
+import ToggleModeBtn from '../components/ToggleModeBtn';
 
 const Container = styled.div`
   padding: 0px 20px;
@@ -24,11 +26,14 @@ const Header = styled.header`
   display: flex;
   justify-content: center;
   align-items: center;
+  position: relative;
 `;
 
 const HomeBtn = styled.span`
-  color: white;
-
+  position: absolute;
+  left: 10%;
+  top: 5%;
+  font-size: 60px;
 `;
 
 const Loader = styled.span`
@@ -39,6 +44,7 @@ const Loader = styled.span`
 const Title = styled.h1`
   font-size: 48px;
   color: ${(props) => props.theme.accentColor};
+  display: flex;
 `;
 
 const Overview = styled.div`
@@ -154,6 +160,7 @@ interface IPriceData {
 function Coin() {
   const { coinId } = useParams<IRouteParams>();
   const { state } = useLocation<IRouteState>(); // from #Coins : Link to의 state를 받음
+  const isDark = useRecoilValue(isDarkAtom);
   const priceMatch = useRouteMatch('/:coinId/price');
   const chartMatch = useRouteMatch('/:coinId/chart');
 
@@ -216,7 +223,7 @@ function Coin() {
 
       <Header>
         <Title>
-          <HomeBtn>
+          <HomeBtn style={{color: isDark ? 'White' : 'black'}}>
             <Link to={`/`}>&lsaquo; </Link>
           </HomeBtn>
           {/* Home을 거치지 않은 경우(바로 상세페이지로 접근한 경우)에는 괄호 안(loading~?:) 실행 */}
@@ -273,6 +280,7 @@ function Coin() {
           </Switch>
         </>
       )}
+      <ToggleModeBtn />
     </Container>
   );
 }

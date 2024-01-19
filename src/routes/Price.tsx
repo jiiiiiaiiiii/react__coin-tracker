@@ -19,7 +19,7 @@ interface IHistorical {
 
 const PriceTable = styled.table`
   border-collapse: collapse;
-  width: 80%;
+  width: 100%;
   margin: 0 auto 100px;
 `;
 
@@ -28,6 +28,8 @@ const PriceList = styled.thead`
     background-color: #f2f2f2;
     border: 1px solid #ddd;
     padding: 8px;
+    font-weight: bold;
+    color: black;
   }
 `;
 
@@ -35,7 +37,8 @@ const Prices = styled.tbody`
 td {
   border: 1px solid #ddd;
   padding: 6px;
-	font-size: 10px;
+	font-size: 15px;
+  text-align: right;
 }
 `;
 
@@ -55,11 +58,11 @@ function Price({ coinId }: IChartProps) {
       <Prices>
         {data?.map((price, idx:number) => (
         <tr key={idx}>
-          <td>{price.open}</td>
-          <td>{price.high}</td>
-          <td>{price.low}</td>
-          <td>{price.close}</td>
-          <td>{price.volume}</td>
+          <td>{Number(price.open).toFixed(2).toLocaleString()}</td>
+          <td>{Number(price.high).toFixed(2).toLocaleString()}</td>
+          <td>{Number(price.low).toFixed(2).toLocaleString()}</td>
+          <td>{Number(price.close).toFixed(2).toLocaleString()}</td>
+          <td>{Number(price.volume).toFixed(2).toLocaleString()}</td>
         </tr>
         ))}
       </Prices>
