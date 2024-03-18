@@ -15,7 +15,5 @@ export function fetchCoinTickers(coinId:string) {
 }
 
 export function fetchCoinHistory(coinId:string) {
-  // const endDate = Math.floor(Date.now() / 1000); // 단위: sec
-  // const startDate = endDate - 60*60*24*7; // endDate - 7일
   return fetch(`https://ohlcv-api.nomadcoders.workers.dev?coinId=${coinId}`).then((response) => response.json());
 }

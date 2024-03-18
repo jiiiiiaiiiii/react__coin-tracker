@@ -21,6 +21,7 @@ const Container = styled.div`
   max-width: 480px;
   margin: 0 auto;
 `;
+
 const Header = styled.header`
   height: 10vh;
   display: flex;
@@ -55,11 +56,13 @@ const Overview = styled.div`
   padding: 10px 20px;
   border-radius: 10px;
 `;
+
 const OverviewItem = styled.div`
   // in-box items
   display: flex;
   flex-direction: column;
   align-items: center;
+  color: whitesmoke;
   span:first-child {
     font-size: 10px;
     font-weight: 400;
@@ -67,6 +70,7 @@ const OverviewItem = styled.div`
     margin-bottom: 5px;
   }
 `;
+
 const Description = styled.p`
   margin: 20px 0px;
 `;
@@ -82,14 +86,17 @@ const Tab = styled.span<{ isActive: boolean }>`
   text-align: center;
   text-transform: uppercase;
   font-size: 12px;
-  font-weight: 400;
+  font-weight: ${props => props.isActive ? 'bold' : 400};
   background-color: rgba(0, 0, 0, 0.5);
   padding: 7px 0px;
   border-radius: 10px;
   color: ${(props) =>
-    props.isActive ? props.theme.accentColor : props.theme.textColor};
+    props.isActive ? props.theme.accentColor : 'whitesmoke'};
   a {
     display: block;
+  }
+  &:hover {
+    font-weight: bold;
   }
 `;
 
@@ -172,40 +179,12 @@ function Coin() {
   const { isLoading: tickersLoading, data: tickersData } = useQuery<IPriceData>(
     ['tickers', coinId],
     () => fetchCoinTickers(coinId),
-    // {
-    //   refetchInterval: 5000, // query를 5초마다 refetch
-    // }
+    {
+      refetchInterval: 5000, // query를 5초마다 refetch
+    }
   );
 
-  /*
-  const [loading, setLoading] = useState(true);
-  const [info, setInfo] = useState<IInfoData>();
-  const [priceInfo, setPriceInfo] = useState<IPriceData>();
-
-  useEffect(() => {
-    (async () => {
-      const infoData = await (
-        await fetch(`https://api.coinpaprika.com/v1/coins/${coinId}`)
-      ) // 코인 정보 API
-        .json();
-      const priceData = await (
-        await fetch(`https://api.coinpaprika.com/v1/tickers/${coinId}`)
-      ) // 코인 가격 API
-        .json();
-
-      setInfo(infoData);
-      setPriceInfo(priceData);
-      setLoading(false);
-    })();
-  }, [coinId]); // dependency
-  */
-
-  // ✨ //
   const loading = infoLoading || tickersLoading;
-  // const logo =
-  //   typeof infoData?.symbol === 'string'
-  //     ? infoData?.symbol.toLowerCase()
-  //     : 'logo';
 
   return (
     <Container>
@@ -216,7 +195,7 @@ function Coin() {
         <link
           rel='icon'
           type='image/png'
-          // href={`https://coinicons-api.vercel.app/api/icon/${logo}`}
+          href={`https://cryptocurrencyliveprices.com/img/${coinId}.png`}
           sizes='16*16'
         />
       </Helmet>
@@ -280,7 +259,7 @@ function Coin() {
           </Switch>
         </>
       )}
-      <ToggleModeBtn />
+      {/* <ToggleModeBtn /> */}
     </Container>
   );
 }

@@ -1,30 +1,50 @@
-import { useEffect, useState } from 'react';
 import { useQuery } from 'react-query';
 import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import styled from 'styled-components';
 import { fetchCoins } from '../api';
-import ToggleModeBtn from './../components/ToggleModeBtn';
+import { isDarkAtom } from './../atoms';
+import { useRecoilValue } from 'recoil';
+import ToggleModeBtn from '../components/ToggleModeBtn';
 
 const Container = styled.div`
-  padding: 0px 20px;
-  max-width: 480px;
-  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 `;
-const Header = styled.header`
+const Header = styled.header<{isDark: boolean}>`
   height: 10vh;
+  width: 100vw;
   display: flex;
   justify-content: center;
   align-items: center;
+  background-color: ${props => props.isDark ? props.theme.subColor : '#2f3640'};
+  color: ${props => props.isDark ? props.theme.accentColor : props.theme.subColor};
+  box-shadow: 10px 8px 15px rgba(0, 0, 0, 0.5);
 `;
 
-const CoinsList = styled.ul``;
+const Title = styled.h1`
+  font-size: 55px;
+  font-weight: bold;
+  text-shadow: 3px 1px 5px black;
+`;
+
+const CoinsList = styled.ul`
+  /* max-width: 480px; */
+  max-width: 70vw;
+  margin-top: 50px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 25px;
+`;
 
 const Coin = styled.li`
-  background-color: white;
-  color: black;
+  background-color: ${props => props.theme.subColor};
+  color: ${props => props.theme.textColor};
   margin-bottom: 10px;
-  border-radius: 15px;
+  border-radius: 8px;
+  box-shadow: 5px 5px 12px rgba(0, 0, 0, 0.5);
+  font-size: 20px;
   a {
     display: flex;
     align-items: center;
@@ -37,11 +57,6 @@ const Coin = styled.li`
       color: ${(props) => props.theme.accentColor};
     }
   }
-`;
-
-const Title = styled.h1`
-  font-size: 48px;
-  color: ${(props) => props.theme.accentColor};
 `;
 
 const Loader = styled.span`
@@ -67,30 +82,15 @@ interface ICoin {
 
 function Coins() {
   const { isLoading, data } = useQuery<ICoin[]>('allCoins', fetchCoins);
-  
-  /*
-	const [coins, setCoins] = useState<ICoin[]>([]);
-	const [loading, setLoading] = useState(true);
-
-	// 기본형: useEffect(() => {(async / await)()},[])
-	useEffect(() => {
-		(async() => {
-			const response = await fetch('https://api.coinpaprika.com/v1/coins');
-			const json = await response.json();
-			setCoins(json.slice(0, 100));	// 앞에서부터 100개의 코인만 추출
-			setLoading(false);
-		})(); // 바로 실행
-	}, []);	// component 최초 실행 시에만
-	*/
+  const isDark = useRecoilValue(isDarkAtom);
 
   return (
     <Container>
       <Helmet>
-        <title>Coin</title>
+        <title>Coin Tracker</title>
       </Helmet>
-
-      <Header>
-        <Title>Coin</Title>
+      <Header isDark={isDark}>
+        <Title>Coin Tracker</Title>
       </Header>
       {isLoading ? (
         <Loader>Loainding...</Loader>
@@ -105,7 +105,7 @@ function Coins() {
                 }}
               >
                 <Img
-                  src={`https://coinicons-api.vercel.app/api/icon/${coin.symbol.toLowerCase()}`}
+                  src={`https://cryptocurrencyliveprices.com/img/${coin.id}.png`}
                 />
                 {coin.name} &rarr;
               </Link>
@@ -113,7 +113,7 @@ function Coins() {
           ))}
         </CoinsList>
       )}
-      <ToggleModeBtn />
+      {/* <ToggleModeBtn /> */}
     </Container>
   );
 }

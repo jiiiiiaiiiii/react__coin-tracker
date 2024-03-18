@@ -1,15 +1,18 @@
-import Router from './Router';
-import { createGlobalStyle } from 'styled-components';
 import { ReactQueryDevtools } from 'react-query/devtools';
+import { createGlobalStyle } from 'styled-components';
 import { ThemeProvider } from 'styled-components';
 import { darkTheme, lightTheme } from './theme';
-import { useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import { isDarkAtom } from './atoms';
+import Router from './Router';
+import ToggleModeBtn from './components/ToggleModeBtn';
+import GitHub from './components/GitHub';
 
 // Reset CSS
 const GlobalStyle = createGlobalStyle`
 @import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@300;400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400..700;1,400..700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Geologica:wght@100..900&display=swap');
 
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
@@ -62,15 +65,14 @@ table {
   box-sizing: border-box;
 }
 body {
-  font-weight: 300;
-  font-family: 'Source Sans Pro', sans-serif;
+  font-family: "Geologica", sans-serif;
   background-color: ${(props) => props.theme.bgColor};
   color: ${(props) => props.theme.textColor};
   line-height: 1.2;
 }
 a {
   text-decoration: none;
-  color: inherit; // link색을 부모에게서 가져옴
+  color: inherit;
 }
 `;
 
@@ -82,6 +84,8 @@ function App() {
       <ThemeProvider theme={isDark ? darkTheme : lightTheme}>
         <GlobalStyle />
         <Router />
+        <ToggleModeBtn />
+        <GitHub />
         {/* <ReactQueryDevtools initialIsOpen={true} /> */}
       </ThemeProvider>
     </>
