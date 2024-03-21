@@ -1,9 +1,11 @@
+### 📌 https://jiiiiiaiiiii.github.io/react__coin-tracker
+![coin-tracker](https://github.com/jiiiiiaiiiii/react__coin-tracker/assets/93249652/8e54edbd-7bb2-4eb5-b927-0eb5201a27dc)
+
 ## Introduction
 - 상위 100개의 가상화폐 실시간 시세 정보를 추적
 - 가상화폐 상세 페이지 내, 가격 변동 추이 그래프 구현
 - Theme(다크 모드/라이트 모드) 구현
 - 가상화폐 종류에 따른 상태탭 Icon 및 Coin 이름 변경
-- [🌏]https://jiiiiiaiiiii.github.io/react__coin-tracker/
 
 <br/>
 
