@@ -4,7 +4,7 @@ import Coin from './routes/Coin';
 
 function Router() {
   return (
-    <BrowserRouter>
+    <BrowserRouter basename='/react__coin-tracker'>
       <Switch>
         <Route path='/:coinId'>
           <Coin />

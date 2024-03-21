@@ -5,7 +5,6 @@ import styled from 'styled-components';
 import { fetchCoins } from '../api';
 import { isDarkAtom } from './../atoms';
 import { useRecoilValue } from 'recoil';
-import ToggleModeBtn from '../components/ToggleModeBtn';
 
 const Container = styled.div`
   display: flex;
